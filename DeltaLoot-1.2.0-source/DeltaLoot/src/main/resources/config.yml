@@ -1,0 +1,247 @@
+# DeltaLoot — Paper 1.21.11 / Java 21
+# 修改后使用 /deltaloot reload。配置无效时会拒绝加载并给出具体字段。
+# 每个实体箱独立生成战利品；同一箱子的搜索结果和取走状态由玩家共享。
+gui:
+  # 2..6 行；所有格子均可搜索，可搜索格数 = rows * 9，没有底部操作栏。
+  rows: 4
+
+search:
+  # 玩家与箱子之间允许的最大距离（1..16 格）。
+  max-distance: 5.0
+  # 受到实际伤害时打断当前格；1 秒未再受伤后自动从本格重新搜索。
+  cancel-on-damage: true
+
+# 表 ID 和条目 ID 只允许小写字母、数字、下划线与短横线。
+# min/max-rolls：本轮随机抽取次数（含首尾），最大值不能超过可搜索格数。
+# empty-chance：每次抽取落空的概率（0..1），未参与抽取的格子同样为空。
+# 非空结果按 weight 相对权重有放回抽取，所以相同物品可能出现在多个格子。
+# 结果会打乱位置；打开界面后从左到右、从上到下自动逐格搜索，无需点击。
+# 可边搜索边点击领取已揭示物品；关闭界面停止搜索，重开跳过已揭示格。
+# refresh-seconds：刷新间隔，1..604800 秒。
+# search-seconds：单件物品的搜索时间，0.1..3600 秒，四舍五入至服务器刻。
+# 数量不得超过该物品的原版堆叠上限。名称/描述为纯文本，不解析 MiniMessage。
+# 六档示例：普通(白)、精良(绿)、稀有(蓝)、史诗(紫)、传说(金)、绝密(红)。
+# rarity-color 使用 Adventure NamedTextColor，如 white/green/blue/light_purple/gold/red。
+# 自定义物品名称仅提供外观，不额外添加枪械、治疗或交易功能。
+loot-tables:
+  civilian:
+    title: "民用物资箱"
+    min-rolls: 5
+    max-rolls: 10
+    refresh-seconds: 300
+    empty-chance: 0.15
+    entries:
+      documents:
+        material: PAPER
+        min-amount: 1
+        max-amount: 5
+        weight: 42
+        rarity-name: "普通"
+        rarity-color: white
+        search-seconds: 1.2
+        name: "旧文件"
+        lore:
+          - "散落在封锁区的纸质记录。"
+      copper_parts:
+        material: COPPER_INGOT
+        min-amount: 2
+        max-amount: 6
+        weight: 26
+        rarity-name: "精良"
+        rarity-color: green
+        search-seconds: 2.0
+        name: "铜制零件"
+        lore:
+          - "还能派上用场的机械耗材。"
+      precision_parts:
+        material: IRON_INGOT
+        min-amount: 1
+        max-amount: 3
+        weight: 16
+        rarity-name: "稀有"
+        rarity-color: blue
+        search-seconds: 3.0
+        name: "精密零件"
+        lore:
+          - "保存完好的精密机械构件。"
+      optical_crystal:
+        material: AMETHYST_SHARD
+        min-amount: 1
+        max-amount: 2
+        weight: 8
+        rarity-name: "史诗"
+        rarity-color: light_purple
+        search-seconds: 4.0
+        name: "光学晶体"
+        lore:
+          - "高级仪器使用的光学材料。"
+      gold_bar:
+        material: GOLD_INGOT
+        min-amount: 1
+        max-amount: 2
+        weight: 5
+        rarity-name: "传说"
+        rarity-color: gold
+        search-seconds: 5.5
+        name: "封存金条"
+        lore:
+          - "印记尚未磨损的贵重金属。"
+      encrypted_core:
+        material: DIAMOND
+        min-amount: 1
+        max-amount: 1
+        weight: 1
+        rarity-name: "绝密"
+        rarity-color: red
+        search-seconds: 8.0
+        name: "加密核心"
+        lore:
+          - "装载着未知数据的核心部件。"
+
+  military:
+    title: "军用物资箱"
+    min-rolls: 7
+    max-rolls: 12
+    refresh-seconds: 600
+    empty-chance: 0.12
+    entries:
+      metal_fragments:
+        material: IRON_NUGGET
+        min-amount: 3
+        max-amount: 12
+        weight: 35
+        rarity-name: "普通"
+        rarity-color: white
+        search-seconds: 1.5
+        name: "金属碎件"
+        lore:
+          - "拆卸下来的通用部件。"
+      circuit_parts:
+        material: REDSTONE
+        min-amount: 2
+        max-amount: 8
+        weight: 28
+        rarity-name: "精良"
+        rarity-color: green
+        search-seconds: 2.2
+        name: "电路组件"
+        lore:
+          - "军用设备的备用电路材料。"
+      processor:
+        material: QUARTZ
+        min-amount: 1
+        max-amount: 3
+        weight: 18
+        rarity-name: "稀有"
+        rarity-color: blue
+        search-seconds: 3.2
+        name: "信号处理器"
+        lore:
+          - "通讯设备中的核心零件。"
+      targeting_module:
+        material: AMETHYST_SHARD
+        min-amount: 1
+        max-amount: 1
+        weight: 10
+        rarity-name: "史诗"
+        rarity-color: light_purple
+        search-seconds: 4.5
+        name: "光学瞄准模块"
+        lore:
+          - "高精度侦察系统的拆机部件。"
+      military_chip:
+        material: GOLD_INGOT
+        min-amount: 1
+        max-amount: 1
+        weight: 6
+        rarity-name: "传说"
+        rarity-color: gold
+        search-seconds: 6.0
+        name: "军用计算芯片"
+        lore:
+          - "具有完整封装的运算模块。"
+      classified_alloy:
+        material: NETHERITE_SCRAP
+        min-amount: 1
+        max-amount: 1
+        weight: 1
+        rarity-name: "绝密"
+        rarity-color: red
+        search-seconds: 9.0
+        name: "机密合金样本"
+        lore:
+          - "附有绝密编号的实验性材料。"
+
+  medical:
+    title: "医疗物资箱"
+    min-rolls: 5
+    max-rolls: 10
+    refresh-seconds: 420
+    empty-chance: 0.10
+    entries:
+      bandage:
+        material: PAPER
+        min-amount: 2
+        max-amount: 6
+        weight: 40
+        rarity-name: "普通"
+        rarity-color: white
+        search-seconds: 1.0
+        name: "医用纱布"
+        lore:
+          - "仍然保持密封的医疗耗材。"
+      nutrient_bottle:
+        material: HONEY_BOTTLE
+        min-amount: 1
+        max-amount: 2
+        weight: 25
+        rarity-name: "精良"
+        rarity-color: green
+        search-seconds: 1.8
+        name: "营养补充剂"
+        lore:
+          - "便携式能量补充用品。"
+      energy_ration:
+        material: GOLDEN_CARROT
+        min-amount: 1
+        max-amount: 3
+        weight: 15
+        rarity-name: "稀有"
+        rarity-color: blue
+        search-seconds: 2.8
+        name: "高能口粮"
+        lore:
+          - "用于长时间行动的储备物资。"
+      laboratory_sample:
+        material: GHAST_TEAR
+        min-amount: 1
+        max-amount: 2
+        weight: 8
+        rarity-name: "史诗"
+        rarity-color: light_purple
+        search-seconds: 4.0
+        name: "实验室样本"
+        lore:
+          - "标签完整的研究样本。"
+      emergency_supply:
+        material: GOLDEN_APPLE
+        min-amount: 1
+        max-amount: 1
+        weight: 3
+        rarity-name: "传说"
+        rarity-color: gold
+        search-seconds: 5.5
+        name: "高级应急补给"
+        lore:
+          - "稀缺的个人应急储备。"
+      prototype_supply:
+        material: ENCHANTED_GOLDEN_APPLE
+        min-amount: 1
+        max-amount: 1
+        weight: 1
+        rarity-name: "绝密"
+        rarity-color: red
+        search-seconds: 8.0
+        name: "实验型特供补给"
+        lore:
+          - "尚未公开发放的特殊补给。"
