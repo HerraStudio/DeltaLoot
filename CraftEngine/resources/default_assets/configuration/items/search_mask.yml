@@ -1,0 +1,6 @@
+items:
+  default:search_mask:
+    data:
+      item_name: "搜索中. . ."
+    material: paper
+    texture: minecraft:item/custom/search_mask

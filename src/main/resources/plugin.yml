@@ -1,0 +1,18 @@
+name: DeltaLoot
+version: 1.2.3
+main: dev.deltaloot.DeltaLootPlugin
+api-version: '1.21.11'
+softdepend: [CraftEngine]
+description: 开箱自动逐格搜索、品质揭示、随机战利品与定时刷新的搜刮箱插件
+commands:
+  deltaloot:
+    description: 管理与查询搜刮箱
+    aliases: [dl]
+    usage: /deltaloot help
+permissions:
+  deltaloot.use:
+    description: 允许打开并搜刮箱子
+    default: true
+  deltaloot.admin:
+    description: 允许管理搜刮箱及重载配置
+    default: op
